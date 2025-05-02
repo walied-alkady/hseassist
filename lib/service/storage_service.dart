@@ -1,9 +1,10 @@
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart'; // Import for kIsWeb
+import 'package:hseassist/Exceptions/storage_exeption.dart' show UploadImageFailure;
 import 'dart:io' as io; // Import dart:io as io
 
-import '../exceptions/storage_exeption.dart'; // Assuming this is your custom exception file
+//import '../exceptions/storage_exeption.dart'; // Assuming this is your custom exception file
 import '../repository/logging_reprository.dart';
 import '../repository/storage_repository.dart';
 
@@ -87,6 +88,7 @@ class StorageService {
         downloadURL: downloadURL,
         errorMessage: null,
       );
+    
     } on FirebaseException catch (e) {
       _log.e('Firebase Storage Error uploading image: $e');
       // Consider using more specific exceptions based on e.code
