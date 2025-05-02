@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "992662012657",
+    "project_id": "hseassist-dd926",
+    "storage_bucket": "hseassist-dd926.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992662012657:android:38695a5b66dcdc9c1d9f50",
+        "android_client_info": {
+          "package_name": "com.walidKSoft.hseassist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992662012657-ghl85mimpq20878spll6oa1mfls362cg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walidKSoft.hseassist",
+            "certificate_hash": "2cc46cd41cbaa8fb1b252eb56d26f0491dcd5e15"
+          }
+        },
+        {
+          "client_id": "992662012657-no7vbnuj8v8g58b1932mmdfumaslneck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfPMHsI88wOIFsDkjUNnchhUJ_R8CdEl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992662012657-mlij9t6jr2ft0nilj0bk5lb0s18tf1it.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "992662012657-0rhtvlq08vqjm2lthkp7hkdvu7ksbgem.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.walidKSoft.hseassist"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

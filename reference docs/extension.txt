@@ -1,0 +1,144 @@
+{
+  "name": "translation-helper",
+  "displayName": "Translation Helper",
+  "description": "Adds selected text to language files.",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:translationHelper.addTranslation"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "translationHelper.addTranslation",
+        "title": "Add Translation"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorHasSelection", // Only show when text is selected
+          "command": "translationHelper.addTranslation",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}
+
+
+const vscode = require('vscode');
+
+function activate(context) {
+  let disposable = vscode.commands.registerCommand('translationHelper.addTranslation', async () => {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      return; // No open text editor
+    }
+
+    const selectedText = editor.document.getText(editor.selection);
+    if (!selectedText) {
+      vscode.window.showInformationMessage('No text selected.');
+      return;
+    }
+
+
+    // Input box for translation key
+    const key = await vscode.window.showInputBox({
+      prompt: "Enter the translation key:"
+    });
+      if (!key) { return;}
+
+
+    const languages = await vscode.window.showInputBox({
+        prompt: "Enter comma-separated language codes (e.g., en,es,fr):"
+      });
+
+    if (!languages) { return;}
+
+
+    const languageCodes = languages.split(',').map(code => code.trim());
+
+    try {
+      for (const lang of languageCodes) {        
+        const langFilePath = `path/to/your/lang/files/${lang}.json`; // Construct language file path
+        let langFileContent = {};
+        try{
+          langFileContent =  JSON.parse((await vscode.workspace.fs.readFile(vscode.Uri.file(langFilePath))).toString())
+        }catch(er){
+          // ignore if the file doesnt exist
+        }
+        langFileContent[key] = selectedText;
+        await vscode.workspace.fs.writeFile(vscode.Uri.file(langFilePath), Buffer.from(JSON.stringify(langFileContent, null, 2)));
+      }
+
+      vscode.window.showInformationMessage('Translations added successfully!');
+    } catch (error) {
+      vscode.window.showErrorMessage(`Error adding translations: ${error}`);
+    }
+
+  });
+
+  context.subscriptions.push(disposable);
+}
+
+exports.activate = activate;
+
+function deactivate() {}
+
+exports.deactivate = deactivate;
+
+
+
+// modification for checking repeated strings
+
+const vscode = require('vscode');
+
+// ... (other code)
+
+async function addTranslation() {
+
+  // ... (other code)
+
+  try {
+    for (const lang of languageCodes) {        
+      const langFilePath = `path/to/your/lang/files/${lang}.json`; // Construct language file path
+      let langFileContent = {};
+
+      try {
+        langFileContent = JSON.parse((await vscode.workspace.fs.readFile(vscode.Uri.file(langFilePath))).toString());
+      } catch (er) {
+        // ignore if the file doesn't exist
+      }
+
+      if (langFileContent[key]) {
+        const overwrite = await vscode.window.showWarningMessage(
+          `Key "${key}" already exists for language "${lang}". Overwrite?`,
+          { modal: true }, 'Yes', 'No'
+        );
+        if (overwrite !== 'Yes') {
+          continue; // Skip to the next language
+        }
+      }
+
+
+      langFileContent[key] = selectedText;
+      await vscode.workspace.fs.writeFile(vscode.Uri.file(langFilePath), Buffer.from(JSON.stringify(langFileContent, null, 2)));
+
+    }
+
+      vscode.window.showInformationMessage('Translations added successfully!');
+    } catch (error) {
+      vscode.window.showErrorMessage(`Error adding translations: ${error}`);
+    }
+}
+
+// ... (other code)
+

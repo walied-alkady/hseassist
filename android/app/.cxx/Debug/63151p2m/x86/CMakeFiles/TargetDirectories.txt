@@ -1,0 +1,2 @@
+C:/Users/walie/.vscode/projects/flutter/hseassist/android/app/.cxx/Debug/63151p2m/x86/CMakeFiles/edit_cache.dir
+C:/Users/walie/.vscode/projects/flutter/hseassist/android/app/.cxx/Debug/63151p2m/x86/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,141 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:greasework/blocs/login_pass_reset_bloc.dart';
+
+class LoginPassResetPage extends StatelessWidget {
+  const LoginPassResetPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            body: BlocListener<LoginPassResetBloc, LoginPassResetStates>(
+          listener: (context, state) {
+            if (state.status.isFailure) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(state.errorMessage ?? 'loadingError'.tr()),
+                  ),
+                );
+            }
+          },
+          child:BlocBuilder<LoginPassResetBloc, LoginPassResetStates>(
+                        builder: (context, state) {
+                                  return Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [ 
+                                              SizedBox(
+                                                      height: 100,
+                                                      width: 50,
+                                                      child: Image.asset(
+                                                        'assets/images/greaseOneBearing.png',
+                                                        fit: BoxFit.fitHeight,
+                                                      )
+                                              ),
+                                              const SizedBox(height: 25,),
+                                              Container(alignment: Alignment.center,child: 
+                                                Text('login'.tr(),style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold),)),
+                                              // input form
+                                              Container(
+                                                  padding:const EdgeInsets.only(left: 25, right: 25),
+                                                  child: Column(
+                                                    children: [
+                                                            /// code text field
+                                                            SizedBox(
+                                                              child: TextFormField(
+                                                                enabled: true,
+                                                                onChanged: (value) => context
+                                                                    .read<LoginPassResetBloc>()
+                                                                    .add(ActionCodeLoginPassResetEvent(value)),
+                                                                keyboardType: TextInputType.text,
+                                                                decoration: InputDecoration(
+                                                                    labelText: 'code'.tr(),
+                                                                    errorText: state.code.displayError?.name.tr(),
+                                                                    suffixIcon: state.code.isValid? const Icon(Icons.check): null,
+                                                                    prefixIcon: const Icon(Icons.password)),
+                                                                style:const TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    fontSize: 14),
+                                                                //validator: (value) {return  state.errorMessageUser.isEmpty?null:state.errorMessageUser ;},
+                                                              ),
+                                                            ),
+                                                            /// password text field
+                                                            SizedBox(
+                                                              child: TextFormField(
+                                                                enabled: true,
+                                                                onChanged: (value) => context
+                                                                    .read<LoginPassResetBloc>()
+                                                                    .add(PasswordChangedLoginPassResetEvent(value)),
+                                                                keyboardType: TextInputType.text,
+                                                                decoration: InputDecoration(
+                                                                    labelText: 'password'.tr(),
+                                                                    errorText: state.password.displayError?.name.tr(),
+                                                                    suffixIcon: state.password.isValid? const Icon(Icons.check): null,
+                                                                    prefixIcon: const Icon(Icons.password)),
+                                                                style:const TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    fontSize: 14),
+                                                                //validator: (value) {return  state.errorMessageUser.isEmpty?null:state.errorMessageUser ;},
+                                                              ),
+                                                            ),
+                                                            ///Confirm password
+                                                            SizedBox(
+                                                              child: TextFormField(
+                                                                enabled: true,
+                                                                onChanged: (value) => context
+                                                                    .read<LoginPassResetBloc>()
+                                                                    .add(PasswordConfirmLoginPassResetEvent(value)),
+                                                                keyboardType: TextInputType.text,
+                                                                decoration: InputDecoration(
+                                                                    labelText: 'confirmPassword'.tr(),
+                                                                    errorText: state.passwordConfirm.displayError?.name.tr(),
+                                                                    suffixIcon: state.passwordConfirm.isValid? const Icon(Icons.check): null,
+                                                                    prefixIcon: const Icon(Icons.password)),
+                                                                style:const TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    fontSize: 14),
+                                                                //validator: (value) {return  state.errorMessageUser.isEmpty?null:state.errorMessageUser ;},
+                                                              ),
+                                              ),
+                                                    ])),
+                                              const SizedBox(height: 16),
+                                              // buttons
+                                              Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Center(
+                                                  child:state.status.isInProgress ? const CircularProgressIndicator(): Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    children: [
+                                                      ElevatedButton(
+                                                          style: ElevatedButton.styleFrom(
+                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                                              backgroundColor:state.isValid ? Colors.blue : Colors.grey,
+                                                              textStyle: const TextStyle(fontSize: 20)),
+                                                              onPressed: state.isValid
+                                                              ? () => context.read<LoginPassResetBloc>().add(
+                                                                  const ResetPasswordButtonTappedEvent()): null,
+                                                              child: Text('ok'.tr())
+                                                              )
+                                                          ,
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+            ],
+            );
+            })
+            )
+          ),
+    );
+  }
+}
+// jsmith@@example.com

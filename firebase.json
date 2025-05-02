@@ -1,0 +1,78 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "hseassist-dd926",
+          "appId": "1:992662012657:android:38695a5b66dcdc9c1d9f50",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "hseassist-dd926",
+          "configurations": {
+            "android": "1:992662012657:android:38695a5b66dcdc9c1d9f50",
+            "ios": "1:992662012657:ios:49bbfde90d5e2c091d9f50",
+            "macos": "1:992662012657:ios:49bbfde90d5e2c091d9f50",
+            "web": "1:992662012657:web:3f08fd945d3a0b221d9f50",
+            "windows": "1:992662012657:web:3f08fd945d3a0b221d9f50"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true,
+    "functions": {
+      "port": 5001
+    },
+    "storage": {
+      "port": 9199
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "pubsub": {
+      "port": 8085
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "remoteconfig": {}
+}

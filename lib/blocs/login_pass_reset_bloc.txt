@@ -1,0 +1,164 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:get_it/get_it.dart';
+import 'package:greasework/repository/logging_reprository.dart';
+import 'package:greasework/service/authentication_service.dart';
+import 'package:greasework/service/preferences_service.dart';
+import '../validations/validations.dart';
+
+
+//states
+class LoginPassResetStates extends Equatable {
+  final Description code;
+  final Password password;
+  final PasswordConfirm passwordConfirm;
+  final Email email;
+
+  final FormzSubmissionStatus status;
+  final bool isValid;
+  final String? errorMessage;
+
+  const LoginPassResetStates(
+      {
+      this.code =const Description.dirty(''),
+      this.password = const Password.dirty(''),
+      this.passwordConfirm = const PasswordConfirm.dirty(password: '',value: ''),
+      this.email = const Email.dirty(''),
+
+      this.status = FormzSubmissionStatus.initial,
+      this.isValid = false,
+      this.errorMessage});
+  @override
+  List<Object?> get props =>
+      [code, email,password, passwordConfirm, status, isValid];
+
+  LoginPassResetStates copyWith({
+    Description? code,
+    Email? email,
+    Password? password,
+    PasswordConfirm? passwordConfirm,
+    FormzSubmissionStatus? status,
+    bool? isValid,
+    String? errorMessage,
+  }) {
+    return LoginPassResetStates(
+      code: code ?? this.code,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
+
+      status: status ?? this.status,
+      isValid: isValid ?? this.isValid,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+}
+//events
+abstract class LoginPassResetEvents extends Equatable {
+  /// Base class for events fired by [AuthenticationBloc]
+  const LoginPassResetEvents();
+  @override
+  List<Object> get props => [];
+}
+
+class ActionCodeLoginPassResetEvent extends LoginPassResetEvents {
+  final String code;
+  const ActionCodeLoginPassResetEvent(this.code);
+}
+
+class PasswordChangedLoginPassResetEvent extends LoginPassResetEvents {
+  final String password;
+  const PasswordChangedLoginPassResetEvent(this.password);
+}
+
+class PasswordConfirmLoginPassResetEvent extends LoginPassResetEvents {
+  final String passwordToConfirm;
+  const PasswordConfirmLoginPassResetEvent(this.passwordToConfirm);
+}
+
+class ResetPasswordButtonTappedEvent extends LoginPassResetEvents {
+  const ResetPasswordButtonTappedEvent();
+}
+
+//bloc
+class LoginPassResetBloc extends Bloc<LoginPassResetEvents, LoginPassResetStates> {
+  final authService = GetIt.instance<AuthenticationService>();
+  final log = GetIt.instance<LoggerReprository>()..name = 'RegisterBloc';
+  final prefs = GetIt.instance<PreferencesService>();
+  final String email;
+  LoginPassResetBloc(this.email) : super(const LoginPassResetStates()) {
+    on<ActionCodeLoginPassResetEvent>(_onActionCodeLoginPassResetEvent);
+    on<PasswordChangedLoginPassResetEvent>(_onPasswordChangedLoginPassResetEvent);
+    on<PasswordConfirmLoginPassResetEvent>(_onPasswordConfirmLoginPassResetEvent);
+    on<ResetPasswordButtonTappedEvent>(_onResetPasswordButtonTappedEvent);
+  }
+
+  void _onActionCodeLoginPassResetEvent(
+    ActionCodeLoginPassResetEvent event, Emitter<LoginPassResetStates> emit) {
+    final value = Description.dirty(event.code);
+    emit(
+      state.copyWith(
+        code: value,
+        isValid: Formz.validate([
+          value,
+          state.password,
+          state.passwordConfirm,
+        ]),
+      ),
+    );
+  }
+
+  void _onPasswordChangedLoginPassResetEvent(
+    PasswordChangedLoginPassResetEvent event, Emitter<LoginPassResetStates> emit) {
+    final value = Password.dirty(event.password);
+    emit(
+      state.copyWith(
+        password: value,
+        isValid: Formz.validate([
+          state.code,
+          value,
+          state.passwordConfirm,
+        ]),
+      ),
+    );
+  }
+
+  void _onPasswordConfirmLoginPassResetEvent(PasswordConfirmLoginPassResetEvent event, Emitter<LoginPassResetStates> emit) {
+    final value = PasswordConfirm.dirty(password: state.password.value,value:event.passwordToConfirm);
+    emit(
+      state.copyWith(
+        passwordConfirm: value,
+        isValid: Formz.validate([
+          value,
+          state.code,
+          state.password,
+        ]),
+      ),
+    );
+  }
+
+  Future<void> _onResetPasswordButtonTappedEvent(
+      ResetPasswordButtonTappedEvent event, Emitter<LoginPassResetStates> emit) async {
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    try {
+          await authService.updatePass(
+              code: state.code.value ,
+              newPassword: state.password.value,
+              );
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
+    }
+    on Exception catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: e.toString(),
+          status: FormzSubmissionStatus.failure,
+        ),
+      );
+    } catch (_) {
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
+    }
+  }
+
+  
+}

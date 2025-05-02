@@ -1,0 +1,1 @@
+C:\Users\walie\.vscode\projects\flutter\hseassist\build\app\intermediates\cxx\Debug\63151p2m\obj\arm64-v8a

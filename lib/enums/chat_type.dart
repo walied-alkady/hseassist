@@ -1,0 +1,1 @@
+enum ChatType { ai, user, group, none } 

@@ -1,0 +1,113 @@
+ firebase emulators:start --import=./emulator-data --export-on-exit ./emulator-data
+
+netstat -aon | findstr "8080"
+ taskkill /F /PID 20176
+
+TASKKILL /PID 15772 /PID 11976 /PID 13988 /T
+
+// for running the app from web server
+flutter build web --web-renderer canvaskit
+// for local server
+ cd build/web
+  http-server
+
+ // android key tool command for generating keys
+from flutter doctor get:  
+    Java binary at: C:\Program Files\Android\Android Studio\jbr\bin\java
+then in powershell run    
+ keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks `
+        -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 `
+        -alias upload 
+//
+flutter pub add http dev:mockito dev:build_runner
+//reference to crud in firestore
+https://medium.com/flutter-community/flutter-crud-operations-using-firebase-cloud-firestore-a7ef38bbf027
+// reference to icons
+https://ionicons.ez-connect.net/#/
+
+// cloud function to create org
+// back-end
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.createOrganization = functions.https.onCall((data, context) => {
+  // 1. Validate Authentication
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated!');
+  }
+
+  // 2. Get Data and Validate
+  const organizationName = data.name; 
+  // ... (add more validation as needed) ...
+
+  // 3. Generate a unique organization ID (you can use Firebase's push IDs)
+  const newOrgId = admin.database().ref('organizations').push().key;
+
+  // 4. Create the organization and add the admin user
+  const updates = {};
+  updates[`/organizations/${newOrgId}`] = {
+    name: organizationName,
+    adminUserId: context.auth.uid
+  };
+  updates[`/greaseusers/${newOrgId}/${context.auth.uid}`] = {
+    // ... initial admin user data ...
+    organizationId: newOrgId // Important: Associate the user with the organization
+  };
+
+  // 5. Update the database atomically
+  return admin.database().ref().update(updates);
+});
+
+//front side
+// ... imports ...
+import 'package:cloud_functions/cloud_functions.dart';
+
+// ...
+
+class YourService {
+  final functions = FirebaseFunctions.instance;
+
+  Future<void> createOrganization(String organizationName) async {
+    final callable = functions.httpsCallable('createOrganization');
+    await callable.call(<String, dynamic>{
+      'name': organizationName,
+    });
+  }
+
+  //send invitations to users 
+
+  const functions = require('firebase-functions');
+  const admin = require('firebase-admin');
+  admin.initializeApp();
+
+// ... (add your email sending logic here) ...
+
+exports.inviteUserToOrganization = functions.https.onCall(async (data, context) => {
+  // 1. Validate Authentication and Authorization (check if the caller is the admin)
+  // ...
+
+  const organizationId = data.organizationId;
+  const invitedUserEmail = data.invitedUserEmail;
+
+  // 2. Generate a unique invitation code
+  const invitationCode = // ... generate a random code ...
+
+  // 3. Create the invitation record in the database
+  const invitationData = {
+    organizationId: organizationId,
+    invitedUserEmail: invitedUserEmail,
+    invitationCode: invitationCode,
+    expiryDate: // ... set an expiry date ...
+  };
+  const invitationRef = admin.database().ref('invitations').push();
+  await invitationRef.set(invitationData);
+
+  // 4. Send the invitation email
+  // ... (use your email sending logic here) ...
+
+  return { success: true };
+});
+
+
+
