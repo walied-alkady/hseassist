@@ -1,44 +1,60 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter/foundation.dart';
 
-import 'logging_reprository.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-enum _SecureStorageKeys {
-  apiKey,
-}
+// import 'logging_reprository.dart';
 
-class SecureStorageRepository {
-  final _log = LoggerReprository('SecureStorageRepository');
-  late final FlutterSecureStorage _secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
-  get storage => _secureStorage;
+// enum _SecureStorageKeys {
+//   apiKey,
+// }
+
+// abstract class SecureStorage {
+//   Future<void> write(String key, String value);
+//   Future<dynamic> read(String key);
+//   Future<void> delete(String key);
+//   Future<void> deleteAll();
+// }
+
+// class SecureStorageRepository implements SecureStorage{
+  // final _log = LoggerReprository('SecureStorageRepository');
+  // late final FlutterSecureStorage _secureStorage = FlutterSecureStorage(
+  //   aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  // );
+  // get storage => _secureStorage;
   
-  AndroidOptions _getAndroidOptions() =>  AndroidOptions(
-        encryptedSharedPreferences: true,
-        // sharedPreferencesName: 'Test2',
-        // preferencesKeyPrefix: 'Test'
-  );
-   //TODO: bypass for web
-  Future<dynamic> readSecure(String key) async {
-    _log.i('getting $key...');
-    if(!kIsWeb) {
-      return await _secureStorage.read(key: key);
-    }
-  }
+  // AndroidOptions _getAndroidOptions() =>  AndroidOptions(
+  //       encryptedSharedPreferences: true,
+  //       // sharedPreferencesName: 'Test2',
+  //       // preferencesKeyPrefix: 'Test'
+  // );
+  //  //TODO: bypass for web
   
-  Future<void> writeSecure({required String key,required String value}) async {
-    if(!kIsWeb) {
-      await _secureStorage.write(key: key, value: value);
-    }
-  }
+  // @override
+  // Future<dynamic> read(String key) async {
+  //   _log.i('getting $key...');
+  //   if(!kIsWeb) {
+  //     return await _secureStorage.read(key: key);
+  //   }
+  // }
+  // @override
+  // Future<void> write(String key,String value) async {
+  //   if(!kIsWeb) {
+  //     await _secureStorage.write(key: key, value: value);
+  //   }
+  // }
+  // @override
+  // Future<void> delete(String key) async {
+  //   if(!kIsWeb) {
+  //     await _secureStorage.delete(key: key);
+  //   }
+  // }
+  // @override
+  // Future<void> deleteAll() async {
+  //   if(!kIsWeb) {
+  //     await _secureStorage.deleteAll();
+  //   }
+  // }
   
-  Future<void> deleteSecure(String key) async {
-    if(!kIsWeb) {
-      await _secureStorage.delete(key: key);
-    }
-  }
-
   // Future<String> get apiKey async =>
   //     await _secureStorage.read(key: _SecureStorageKeys.apiKey.name) ?? '';
 
@@ -49,4 +65,4 @@ class SecureStorageRepository {
   //       key: _SecureStorageKeys.apiKey.name,
   //       value: value,
   //     );
-}
+//}

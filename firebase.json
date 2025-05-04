@@ -15,7 +15,7 @@
             "android": "1:992662012657:android:38695a5b66dcdc9c1d9f50",
             "ios": "1:992662012657:ios:49bbfde90d5e2c091d9f50",
             "macos": "1:992662012657:ios:49bbfde90d5e2c091d9f50",
-            "web": "1:992662012657:web:3f08fd945d3a0b221d9f50",
+            "web": "1:992662012657:web:29e66af239eba04e1d9f50",
             "windows": "1:992662012657:web:3f08fd945d3a0b221d9f50"
           }
         }
@@ -48,6 +48,12 @@
     },
     "pubsub": {
       "port": 8085
+    },
+    "apphosting": {
+      "port": 5002,
+      "rootDirectory": "./",
+      //"rootDirectory": "./build/web",  // IMPORTANT: Point to your Flutter web build output
+      "startCommand": "npx serve"      //  Use 'serve' to run a simple server for static files
     }
   },
   "functions": [
@@ -72,6 +78,12 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   },
   "remoteconfig": {}

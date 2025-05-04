@@ -88,7 +88,9 @@ class AuthenticationService  {
       if(userCredential?.user != null) {
         if (userCredential?.user != null) {
           final token = await userCredential!.user?.getIdToken(); // Get Firebase ID token
-          if (token !=null) await prefs.writeSecure(key: 'authToken', value: token);
+          if (token !=null) {
+            await prefs.setUserAuthToken(token);  //await prefs.writeSecure(key: 'authToken', value: token);
+          }
           await prefs.setUserLoggedInTime(DateTime.now());
           await prefs.setUserIsLoggedin(true);
         }
@@ -104,7 +106,7 @@ class AuthenticationService  {
   
   Future<bool> isUserLoggedIn() async {                  // Check login status at startup
    // Check login status at startup
-    final token = await prefs.readSecure('authToken');
+    final token = prefs.userAuthToken ;// await prefs.read('authToken');
     final bool isUserLoggedin = prefs.isUserLoggedin;
     final bool hasAuthUser = currentAuthUser != null;
     if (token == null || !isUserLoggedin || !hasAuthUser) {
@@ -123,13 +125,13 @@ class AuthenticationService  {
       // Re-authentication failed.
       _log.i('User reload failed, $e');
       prefs.setUserIsLoggedin(false); // Reset the state of user loggedin
-      await prefs.deleteSecure('authToken');
+      prefs.setUserAuthToken(null); //await prefs.deleteSecure('authToken');
       return false;
     }
   }
 
   Future<bool> logOut()async {
-    final token = await prefs.readSecure('authToken');
+    final token = prefs.userAuthToken;//await prefs.readSecure('authToken');
     await prefs.setUserLoggedOffTime(DateTime.now());
     await prefs.setUserIsLoggedin(false);
     await _firebaseAuth.logOut();

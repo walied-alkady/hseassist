@@ -29,8 +29,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  adaptive_dialog: ^2.4.0
-  build_runner: ^2.4.13
   cached_network_image: ^3.4.1
   cloud_firestore: ^5.4.5
   cloud_functions: ^5.1.5
@@ -38,10 +36,7 @@ dependencies:
   connectivity_plus: ^6.1.3
   const_date_time: ^1.2.1
   csv: ^6.0.0
-  cupertino_icons: ^1.0.8
   easy_localization: ^3.0.7
-  easy_localization_generator: ^0.3.3
-  easy_localization_loader: ^2.0.2
   equatable: ^2.0.5
   firebase_analytics: ^11.4.3
   firebase_auth: ^5.1.4
@@ -50,39 +45,29 @@ dependencies:
   firebase_database: ^11.0.4
   firebase_messaging: ^15.1.3
   firebase_storage: ^12.3.6
-  fl_chart: ^0.70.0
+  fl_chart: ^0.71.0
   flame: ^1.21.0
-  flame_audio: ^2.10.5
-  flame_tiled: ^1.21.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
   flutter_dotenv: ^5.1.0
-  flutter_form_builder: ^9.5.0
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^19.1.0
   flutter_rating_bar: ^4.0.1
-  flutter_secure_storage: ^9.2.4
-  flutter_slidable: ^4.0.0
-  form_builder_validators: ^11.0.0
   get_it: ^8.0.3
-  go_router: ^14.2.7
+  go_router: ^15.1.1
   google_generative_ai: ^0.4.5
   google_mobile_ads: ^5.1.0
   google_sign_in: ^6.2.1
-  googleapis_auth: ^1.6.0
+  googleapis_auth: ^2.0.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  hive_generator: ^2.0.1
   hsequize:
     path: packages/hsequize
   http: ^1.2.2
   icons_plus: ^5.0.0
   image_picker: ^1.1.2
-  ionicons: ^0.2.2
   leap: ^0.8.2
   logger: ^2.4.0
-  lottie: ^3.1.2
-  mockito: ^5.4.4
   path: ^1.9.0
   provider: ^6.1.2
   rxdart: ^0.28.0
@@ -91,7 +76,6 @@ dependencies:
   speech_to_text: ^7.0.0
   sqflite: ^2.4.2
   table_calendar: ^3.1.3
-  tiled: ^0.10.2
   tutorial_coach_mark: ^1.2.13
   uuid: ^4.5.1
 

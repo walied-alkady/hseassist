@@ -9,7 +9,7 @@ import '../repository/secure_storage_repository.dart';
 
 class PreferencesService {
   
-  final SecureStorageRepository _secure = SecureStorageRepository();
+  // final SecureStorageRepository _secure = SecureStorageRepository();
   final HiveRepository  _hiveRepository = HiveRepository ();
 
   final _log = LoggerReprository('PreferencesService');
@@ -44,6 +44,10 @@ class PreferencesService {
     await _hiveRepository.putBoxData(_getPreferenceBox(),PreferencesKey.currentUserId.name, value);
   }
   
+  String get userAuthToken => _hiveRepository.getData(_getPreferenceBox(),PreferencesKey.authToken.name)??'';
+  Future<void> setUserAuthToken(String? value) async{
+    await _hiveRepository.putBoxData(_getPreferenceBox(),PreferencesKey.authToken.name, value);
+  }
   //----- User session---------
   bool get isFirstLogin => _hiveRepository.getData(_getPreferenceBox(),PreferencesKey.isFirstLogin.name)??false;
   Future<void> setIsFirstLogin(bool value) async{
@@ -113,24 +117,24 @@ class PreferencesService {
   }
  //---------- secure storege
  //TODO: bypass for web
-  Future<dynamic> readSecure(String key) async {
-    _log.i('getting $key...');
-    if(!kIsWeb) {
-      return await _secure.storage.read(key: key);
-    }
-  }
+  // Future<dynamic> readSecure(String key) async {
+  //   _log.i('getting $key...');
+  //   if(!kIsWeb) {
+  //     return await _secure.storage.read(key: key);
+  //   }
+  // }
   
-  Future<void> writeSecure({required String key,required String value}) async {
-    if(!kIsWeb) {
-      await _secure.storage.write(key: key, value: value);
-    }
-  }
+  // Future<void> writeSecure({required String key,required String value}) async {
+  //   if(!kIsWeb) {
+  //     await _secure.storage.write(key: key, value: value);
+  //   }
+  // }
   
-  Future<void> deleteSecure(String key) async {
-    if(!kIsWeb) {
-      await _secure.storage.delete(key: key);
-    }
-  }
+  // Future<void> deleteSecure(String key) async {
+  //   if(!kIsWeb) {
+  //     await _secure.storage.delete(key: key);
+  //   }
+  // }
 
 }
 

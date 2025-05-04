@@ -29,10 +29,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         return windows;
       case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return web;
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -41,13 +38,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBwd_QJFWggBcbKEMjc9KULiAiL2h49h4U',
-    appId: '1:992662012657:web:3f08fd945d3a0b221d9f50',
+    apiKey: 'AIzaSyDhBD03VFrXdZoQ0sjeEihzt26NAbBye2w',
+    appId: '1:992662012657:web:29e66af239eba04e1d9f50',
     messagingSenderId: '992662012657',
     projectId: 'hseassist-dd926',
     authDomain: 'hseassist-dd926.firebaseapp.com',
     storageBucket: 'hseassist-dd926.firebasestorage.app',
-    measurementId: 'G-SLQHC26725',
+    measurementId: 'G-EJ2HH1QFFG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -90,4 +87,13 @@ class DefaultFirebaseOptions {
     measurementId: 'G-SLQHC26725',
   );
 
+  static const FirebaseOptions linux = FirebaseOptions(
+    apiKey: "AIzaSyDhBD03VFrXdZoQ0sjeEihzt26NAbBye2w",
+    authDomain: "hseassist-dd926.firebaseapp.com",
+    projectId: "hseassist-dd926",
+    storageBucket: "hseassist-dd926.firebasestorage.app",
+    messagingSenderId: "992662012657",
+    appId: "1:992662012657:web:29e66af239eba04e1d9f50",
+    measurementId: "G-EJ2HH1QFFG"
+  );
 }

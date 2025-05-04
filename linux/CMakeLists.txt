@@ -126,3 +126,14 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
 endif()
+
+# Flutter standard plugin registrations.
+# list(APPEND PLUGIN_BUNDLED_LIBRARIES "")
+# set(PLUGIN_LOADERS "")
+# include(flutter/generated_plugins.cmake)
+# # Filter out the problematic plugin before including generated_plugins.cmake
+# set(FLUTTER_PLUGIN_LIST "${FLUTTER_PLUGIN_LIST}" CACHE STRING "" FORCE) # Ensure it's modifiable
+# string(REPLACE "flutter_secure_storage_linux;" "" FLUTTER_PLUGIN_LIST "${FLUTTER_PLUGIN_LIST}")
+# include(flutter/generated_plugins.cmake)
+
+# Application plugin registrations.

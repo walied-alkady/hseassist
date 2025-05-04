@@ -6,6 +6,7 @@ enum PreferencesKey{
   userLoginTime,
   userLoggedOffTime,
   userIsLoggedin,
+  authToken,
   //user data
   currentUserId,
   isFirstLogin,

@@ -334,7 +334,7 @@ class LoginCubit extends Cubit<LoginFormUpdate> with Validator,Manager<LoginCubi
       if (savedAuthUser == null) throw UserNotFoundFailure();
       _log.i('Authorized ${savedAuthUser.email} saving user data...');
       final token = await usr.getIdToken(); // Get Firebase ID token
-      if (token !=null) await prefs.writeSecure(key: 'authToken', value: token);
+      if (token !=null) await  prefs.setUserAuthToken(token);//prefs.writeSecure(key: 'authToken', value: token);
       await prefs.setUserJustLoggedIn(); 
       _log.i('checking if admin first time login...');
       db.currentWorkplaceId = savedAuthUser.currentWorkplace;
