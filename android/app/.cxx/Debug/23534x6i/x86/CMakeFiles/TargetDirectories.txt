@@ -1,0 +1,2 @@
+/home/walid/Documents/flutter/hseassist/android/app/.cxx/Debug/23534x6i/x86/CMakeFiles/edit_cache.dir
+/home/walid/Documents/flutter/hseassist/android/app/.cxx/Debug/23534x6i/x86/CMakeFiles/rebuild_cache.dir
